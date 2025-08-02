@@ -1,23 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './App.css';
 
+
+interface Game {
+  id: number;
+  title: string;
+}
+
 function App() {
+  
+  const [games, setGames] = useState<Game[]>([]);
+
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+   
+    const apiUrl = 'http://localhost:8080/api/v1/games';
+
+    axios.get<Game[]>(apiUrl)
+      .then(response => {
+    
+        setGames(response.data);
+      })
+      .catch(error => {
+      
+        console.error("Houve um erro ao buscar os dados!", error);
+        setError('Falha ao conectar com o servidor. Verifique se o backend está rodando e tente novamente.');
+      });
+  }, []); 
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Resident Evil Library</h1>
+        <h2>Lista de Jogos</h2>
+        
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        
+        <ul>
+          {games.map(game => (
+            <li key={game.id}>{game.title}</li>
+          ))}
+        </ul>
       </header>
     </div>
   );
