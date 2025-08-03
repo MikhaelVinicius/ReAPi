@@ -1,54 +1,46 @@
 package com.residentevillibrary.API.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "games")
 public class Game {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String name;
-    private String year;
-    private String[] platarfoms;
-    private Files[] files;
 
-    public Game(String name, String year, String[] platarfoms, Files[] files) {
+    // 👇 RENOMEADO AQUI
+    private String releaseYear; 
+
+    private String platforms;
+
+    public Game() {}
+
+    // 👇 E AQUI no construtor
+    public Game(String name, String releaseYear, String platforms) {
         this.name = name;
-        this.year = year;
-        this.platarfoms = platarfoms;
-        this.files = files;
-
+        this.releaseYear = releaseYear;
+        this.platforms = platforms;
     }
 
-    public String getName() {
-        return name;
-    }
+    // GETTERS e SETTERS...
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    // 👇 GETTER RENOMEADO
+    public String getReleaseYear() { return releaseYear; }
+    // 👇 SETTER RENOMEADO
+    public void setReleaseYear(String releaseYear) { this.releaseYear = releaseYear; }
 
-    public String getYear() {
-        return year;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
-    }
-
-    public String[] getPlatarfoms() {
-        return platarfoms;
-    }
-
-    public void setPlatarfoms(String[] platarfoms) {
-        this.platarfoms = platarfoms;
-    }
-
-    public Files[] getFiles() {
-        return files;
-    }
-
-    public void setFiles(Files[] files) {
-        this.files = files;
-    }
-
-    
-
-    
-    
+    public String getPlatforms() { return platforms; }
+    public void setPlatforms(String platforms) { this.platforms = platforms; }
 }

@@ -1,58 +1,51 @@
 package com.residentevillibrary.API.controller;
 
-
-
 import com.residentevillibrary.API.entity.Game;
-import com.residentevillibrary.API.entity.Files;
+import com.residentevillibrary.API.repository.GameRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.util.StringUtils; // Importe esta classe
 
 @RestController
 @RequestMapping("/api/v1/games")
 public class GameController {
 
-    private final List<Game> games = new ArrayList<>();
+    @Autowired // Injeta a dependência do nosso repositório
+    private GameRepository gameRepository;
 
-
-    public GameController() {
-        Files[] re1Files = {
-            new Files("The Spencer Mansion Incident", "A report detailing the events...", "Chris Redfield", "1998-07-24"),
-            new Files("Researcher's Letter", "Itchy. Tasty.", "Unnamed Researcher", "1998-05-21")
-        };
-        games.add(new Game("Resident Evil 1", "1996", new String[]{"PlayStation", "PC"}, re1Files));
-
-        Files[] re2Files = {
-            new Files("Leon's Report", "My first day as a cop was a nightmare.", "Leon S. Kennedy", "1998-09-29")
-        };
-        games.add(new Game("Resident Evil 2", "1998", new String[]{"PlayStation", "PC", "N64"}, re2Files));
-    }
-
-   
+    /**
+     * Endpoint ajustado para buscar jogos com paginação e busca opcional.
+     * Rota: GET /api/v1/games?page=0&size=10&search=remake
+     * * @param search O termo de busca opcional.
+     * @param pageable O Spring criará este objeto a partir dos parâmetros 'page', 'size' e 'sort'.
+     * @return Um objeto Page<Game> que o Spring converterá para o JSON esperado pelo frontend.
+     */
     @GetMapping
-    public ResponseEntity<List<Game>> getAllGames() {
-        return ResponseEntity.ok(games);
-    }
-
- 
-    @GetMapping("/{name}")
-    public ResponseEntity<Game> getGameByName(@PathVariable String name) {
+    public Page<Game> getAllGames(
+            @RequestParam(required = false) String search,
+            Pageable pageable) {
         
-        return games.stream()
-                .filter(game -> game.getName().equalsIgnoreCase(name.replace("-", " ")))
-                .findFirst()
-                .map(ResponseEntity::ok) 
-                .orElse(ResponseEntity.notFound().build()); 
+        // Verifica se o parâmetro de busca foi fornecido e não está vazio
+        if (StringUtils.hasText(search)) {
+            // Se houver busca, usa nosso método customizado do repositório
+            return gameRepository.findByNameContainingIgnoreCase(search, pageable);
+        } else {
+            // Se não houver busca, retorna todos os jogos de forma paginada
+            return gameRepository.findAll(pageable);
+        }
     }
 
-    @GetMapping("/{name}/files")
-    public ResponseEntity<Files[]> getFilesByGameName(@PathVariable String name) {
-        return games.stream()
-                .filter(game -> game.getName().equalsIgnoreCase(name.replace("-", " ")))
-                .findFirst()
-                .map(game -> ResponseEntity.ok(game.getFiles())) 
+    /**
+     * Endpoint para buscar um jogo específico pelo ID.
+     * Rota: GET /api/v1/games/{id}
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<Game> getGameById(@PathVariable Long id) {
+        return gameRepository.findById(id)
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 }
