@@ -25,17 +25,16 @@ public class Game {
     @JsonManagedReference
     private List<GameFile> files = new ArrayList<>();
 
-    // Construtor vazio (necessário para o JPA)
     public Game() {}
 
-    // 👇 ESTE É O CONSTRUTOR QUE ESTAVA FALTANDO
+   
     public Game(String name, String releaseYear, String platforms) {
         this.name = name;
         this.releaseYear = releaseYear;
         this.platforms = platforms;
     }
 
-    // Getters e Setters...
+   
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getName() { return name; }

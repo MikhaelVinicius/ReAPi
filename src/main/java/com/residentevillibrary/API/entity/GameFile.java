@@ -14,16 +14,16 @@ public class GameFile {
     private String fileName;
     private String fileType;
 
-    @Column(length = 1000) // Permite uma descrição mais longa
+    @Column(length = 1000) 
     private String description;
     private String author;
 
-    @ManyToOne(fetch = FetchType.LAZY) // Muitos arquivos para Um Jogo. LAZY é mais performático.
-    @JoinColumn(name = "game_id", nullable = false) // Define a chave estrangeira
-    @JsonBackReference // Evita que o 'game' seja serializado de volta, causando um loop infinito
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "game_id", nullable = false) 
+    @JsonBackReference 
     private Game game;
 
-    // Getters e Setters...
+   
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

@@ -6,43 +6,48 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.util.StringUtils; // Importe esta classe
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/games")
 public class GameController {
 
-    @Autowired // Injeta a dependência do nosso repositório
+    @Autowired
     private GameRepository gameRepository;
 
-    /**
-     * Endpoint ajustado para buscar jogos com paginação e busca opcional.
-     * Rota: GET /api/v1/games?page=0&size=10&search=remake
-     * * @param search O termo de busca opcional.
-     * @param pageable O Spring criará este objeto a partir dos parâmetros 'page', 'size' e 'sort'.
-     * @return Um objeto Page<Game> que o Spring converterá para o JSON esperado pelo frontend.
-     */
+    // Endpoint principal para listas e busca (continua o mesmo)
     @GetMapping
     public Page<Game> getAllGames(
             @RequestParam(required = false) String search,
             Pageable pageable) {
-        
-        // Verifica se o parâmetro de busca foi fornecido e não está vazio
         if (StringUtils.hasText(search)) {
-            // Se houver busca, usa nosso método customizado do repositório
             return gameRepository.findByNameContainingIgnoreCase(search, pageable);
         } else {
-            // Se não houver busca, retorna todos os jogos de forma paginada
             return gameRepository.findAll(pageable);
         }
     }
 
     /**
-     * Endpoint para buscar um jogo específico pelo ID.
-     * Rota: GET /api/v1/games/{id}
+     * 👇 CORREÇÃO AQUI
+     * Torne a URL para busca por nome mais explícita.
+     * O frontend já chama esta URL, então esta é a que precisamos manter.
      */
-    @GetMapping("/{id}")
+    @GetMapping("/{name}")
+    public ResponseEntity<Game> getGameByName(@PathVariable String name) {
+        String formattedName = name.replace("-", " ");
+        return gameRepository.findFirstByNameIgnoreCase(formattedName)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    /**
+     * 👇 E CORREÇÃO AQUI
+     * Adicione um prefixo como "/id/" para o endpoint de busca por ID para diferenciá-lo.
+     */
+    @GetMapping("/id/{id}")
     public ResponseEntity<Game> getGameById(@PathVariable Long id) {
         return gameRepository.findById(id)
                 .map(ResponseEntity::ok)
