@@ -1,0 +1,24 @@
+.detailsContainer {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 2rem auto;
+}
+
+.header {
+  border-bottom: 1px solid #444;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+
+.gameTitle {
+  color: #ff4141;
+  font-size: 2.5rem;
+  text-shadow: 0 0 5px #ff4141;
+}
+
+.backLink {
+  color: #ffc400;
+  text-decoration: none;
+  margin-bottom: 1rem;
+  display: inline-block;
+}

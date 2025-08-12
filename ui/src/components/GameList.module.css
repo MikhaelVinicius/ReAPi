@@ -1,0 +1,29 @@
+.gameList {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 2rem;
+}
+
+.gameItem {
+  background-color: #1a1e23;
+  border-left: 4px solid transparent;
+  margin-bottom: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+.gameItem:hover {
+  border-left-color: #ff4141;
+  background-color: #2a2e33;
+}
+
+.gameLink {
+  display: block;
+  padding: 15px 20px;
+  color: #cdd4da;
+  text-decoration: none;
+  font-size: 1.1rem;
+}
+
+.gameLink:hover {
+  color: #fff;
+}

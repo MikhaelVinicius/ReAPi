@@ -1,0 +1,55 @@
+.fileBrowser {
+  margin-top: 2rem;
+}
+
+.title {
+  color: #ffc400;
+  border-bottom: 1px dashed #ffc400;
+  padding-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.fileGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.fileCard {
+  background: rgba(42, 46, 51, 0.8);
+  border: 1px solid #333;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.fileCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.fileName {
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.fileAuthor {
+  font-size: 0.8rem;
+  color: #aaa;
+  margin-bottom: 1rem;
+}
+
+.deleteButton {
+  background-color: #ff4141;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  align-self: flex-end;
+  text-transform: uppercase;
+  font-weight: bold;
+}

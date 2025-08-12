@@ -1,9 +1,9 @@
 import React from 'react';
 import { GameFile } from '../types';
-
+import styles from './FileBrowser.module.css';
 interface FileBrowserProps {
     files: GameFile[];
-    onDeleteFile: (fileId: number) => void; // <-- Nova prop para a função de deletar
+    onDeleteFile: (fileId: number) => void; 
 }
 
 const FileBrowser: React.FC<FileBrowserProps> = ({ files, onDeleteFile }) => {
@@ -12,34 +12,24 @@ const FileBrowser: React.FC<FileBrowserProps> = ({ files, onDeleteFile }) => {
     }
 
     return (
-        <div className="file-browser">
-            <h3>Arquivos do Jogo</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Autor</th>
-                        <th>Tipo</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {files.map((file) => (
-                        <tr key={file.id}>
-                            <td>{file.fileName}</td>
-                            <td>{file.author}</td>
-                            <td>{file.fileType}</td>
-                            <td>
-                                <button className="delete-button" onClick={() => onDeleteFile(file.id)}>
-                                    Deletar
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-    );
+    <div className={styles.fileBrowser}>
+      <h3 className={styles.title}>Evidence Locker // Files</h3>
+      <div className={styles.fileGrid}>
+        {files.map((file) => (
+          <div key={file.id} className={styles.fileCard}>
+            <div>
+              <p className={styles.fileName}>{file.fileName}</p>
+              <p className={styles.fileAuthor}>Author: {file.author}</p>
+            </div>
+            <button className={styles.deleteButton} onClick={() => onDeleteFile(file.id)}>
+              Delete
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
 };
 
 export default FileBrowser;

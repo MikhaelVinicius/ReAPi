@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Game } from '../types';
+import styles from './GameList.module.css';
 
 interface GameListProps {
   games: Game[];
@@ -26,18 +27,18 @@ const GameList: React.FC<GameListProps> = ({ games = [] }) => {
     return <p>Nenhum jogo encontrado.</p>;
   }
 
-  return (
-    <ul className="game-list">
+    return (
+    <ul className={styles.gameList}>
       {games.map((game) => (
-        <li key={game.name}>
-          {/* A URL gerada agora será limpa e válida */}
-          <Link to={`/game/${formatGameNameForUrl(game.name)}`}>
-            {game.name} ({game.releaseYear})
+        <li key={game.name} className={styles.gameItem}>
+          <Link to={`/game/${formatGameNameForUrl(game.name)}`} className={styles.gameLink}>
+            &gt; {game.name} ({game.releaseYear})
           </Link>
         </li>
       ))}
     </ul>
   );
+
 };
 
 export default GameList;

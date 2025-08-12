@@ -1,0 +1,30 @@
+.searchBar {
+  display: flex;
+  margin-bottom: 2rem;
+}
+
+.searchInput {
+  flex-grow: 1;
+  background-color: #1a1e23;
+  border: 1px solid #444;
+  color: #f0f0f0;
+  padding: 10px 15px;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #ffc400; /* Cor âmbar */
+}
+
+.searchButton {
+  background-color: #ffc400;
+  color: #14181c;
+  border: none;
+  padding: 10px 20px;
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: uppercase;
+}
