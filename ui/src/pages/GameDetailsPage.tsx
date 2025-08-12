@@ -29,12 +29,12 @@ const GameDetailsPage: React.FC = () => {
         fetchGameDetails();
     }, [fetchGameDetails]);
 
-
+  
     const handleAddFile = async (fileData: { fileName: string; fileType: string; author: string; description: string; }) => {
         if (!game) return;
         try {
             await createFileForGame(game.id, fileData);
-           
+            
             fetchGameDetails();
         } catch (error) {
             console.error("Erro ao adicionar arquivo:", error);
@@ -42,7 +42,7 @@ const GameDetailsPage: React.FC = () => {
         }
     };
 
-vo
+    
     const handleDeleteFile = async (fileId: number) => {
         const originalFiles = game?.files || [];
  
